@@ -3,7 +3,6 @@
 """
 
     Creating NaviKing's favorites.db from GoStations list API
-    WARNING: This script overrides all your existing POIs in the database
 
 """
 import urllib, json
@@ -12,20 +11,15 @@ import time
 import sys
 
 TABLE_NAME = "favListV0"
-DROP_TABLE_STMT = '''DROP TABLE IF EXISTS favListV0 '''
-CREATE_TABLE_STMT = '''CREATE TABLE favListV0 (_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                     poi_name TEXT,poi_image_id INTEGER,poi_image_name TEXT,
-                     poi_photo_path TEXT,category_name TEXT,phone_number TEXT,
-                     location TEXT,lat REAL,lon REAL,buffer_string TEXT,
-                     buffer_index INTEGER,basic_option INTEGER,extra_option INTEGER,
-                     region TEXT,create_time LONG,use_frequency INTEGER,CRoad INTEGER)'''
-TEST_DB_STMT = "SELECT * FROM android_metadata"
+CATEGORY_NAME = "GoStationPOI"
+DELETE_ROW_STMT = '''DELETE FROM %s WHERE category_name = "%s"''' % (TABLE_NAME, CATEGORY_NAME)
+TEST_DB_STMT = "SELECT * FROM %s" % TABLE_NAME
 LANG = "zh-TW"
 QUOTE_SIGN = "\""
 COMMON_FIELDS = {"create_time":int(time.time()), "poi_image_id":-1, "poi_image_name":"",\
-                 "poi_photo_path":"", "category_name":"", "phone_number":"", "location":"",\
-                 "buffer_string":"", "buffer_index":-1, "basic_option":13, "extra_option":0,\
-                 "use_frequency":0, "CRoad":0}
+                 "poi_photo_path":"", "category_name":CATEGORY_NAME, "phone_number":"",
+                 "location":"", "buffer_string":"", "buffer_index":-1, "basic_option":13,
+                 "extra_option":0, "use_frequency":0, "CRoad":0}
 URL = "http://www.gogoro.com/tw/api/vm/list"
 
 def get_lang(list_jsonstring):
@@ -78,8 +72,7 @@ def main(argv):
         print >> sys.stderr, "%s seems not like a working NavKing POI DB" % filename
         return
 
-    cur.execute(DROP_TABLE_STMT)
-    cur.execute(CREATE_TABLE_STMT)
+    cur.execute(DELETE_ROW_STMT)
 
     for data in jsonbody['data']:
         row = prepare_row(data)
