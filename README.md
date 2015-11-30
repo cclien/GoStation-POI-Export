@@ -1,6 +1,8 @@
 # GoStation-POI-Export
 GoStation 站點匯出工具
 
+資料來源: http://www.gogoro.com/tw/api/vm/list
+
 ### 匯出導航王自建點資料庫
 
 Step1. 準備一份能動的 favorites.db
