@@ -20,7 +20,7 @@ COMMON_FIELDS = {"create_time":int(time.time()), "poi_image_id":-1, "poi_image_n
                  "poi_photo_path":"", "category_name":CATEGORY_NAME, "phone_number":"",
                  "location":"", "buffer_string":"", "buffer_index":-1, "basic_option":13,
                  "extra_option":0, "use_frequency":0, "CRoad":0}
-URL = "http://www.gogoro.com/tw/api/vm/list"
+URL = "https://wapi.gogoro.com/tw/api/vm/list"
 
 def get_lang(list_jsonstring):
     """ The API return multilanguages fields with following format:
